@@ -125,3 +125,32 @@ ax.grid(True)
 
 
 st.pyplot(fig)
+
+
+# Accuracy Metrics on Test Set
+# For Holt
+holt_mae = mean_absolute_error(test['value'], y_hat_avg['forecast'])
+holt_rmse = np.sqrt(mean_squared_error(test['value'], y_hat_avg['forecast']))
+
+# For Linear Regression
+X_test = test['date'].values.reshape(-1, 1)
+y_test = test['value'].values
+lr_pred = linear_model.predict(X_test)
+
+lr_mae = mean_absolute_error(y_test, lr_pred)
+lr_rmse = np.sqrt(mean_squared_error(y_test, lr_pred))
+
+# Display the results
+# Create a table for accuracy metrics
+accuracy_data = {
+    'Model': ['Holt’s Linear Trend', 'Linear Regression'],
+    'MAE': [holt_mae, lr_mae],
+    'RMSE': [holt_rmse, lr_rmse]
+}
+
+# Reset index but drop it entirely
+accuracy_df = pd.DataFrame(accuracy_data)
+
+# Display the table
+st.subheader("📊 Model Accuracy on Test Set (Last 5 Years)")
+st.table(accuracy_df.style.format({'MAE': '{:.2f}', 'RMSE': '{:.2f}'}))
