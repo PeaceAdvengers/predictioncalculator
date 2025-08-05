@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 from statsmodels.tsa.api import Holt
 from sklearn.linear_model import LinearRegression
 
-
 # Load your dataset
 df = pd.read_csv("water_consumption.csv")
 
